@@ -1,0 +1,28 @@
+{
+	"name": "missing_products_client",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+	  "postinstall": "node ./scripts/postinstall.js",
+	  "start": "watchman watch-del-all && (adb reverse tcp:8081 tcp:8081 || true) && node node_modules/react-native/local-cli/cli.js start --reset-cache",
+	  "xcode": "open ios/example.xcodeproj",
+	  "android": "cd android && ./gradlew installDebug",
+	  "e2e": "detox test --configuration ios.sim.debug",
+	  "e2e-release": "detox test --configuration ios.sim.release"
+	},
+	"dependencies": {
+		"jquery": "^3.2.1",
+		"react": "16.0.0-alpha.6",
+	    "react-native-simple-login": "^1.1.0",
+		"react-native": "0.44.2",
+		"react-native-animatable": "^1.1.0",
+    	"react-native-navigation": "latest"
+	},
+	"devDependencies": {
+		"babel-jest": "20.0.3",
+		"babel-preset-react-native": "2.0.0"
+	},
+	"rnpm": {
+	   "assets": ["./img/fonts"]
+	}
+}
