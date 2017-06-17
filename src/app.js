@@ -5,58 +5,18 @@ import registerScreens from './screens';
 // screen related book keeping
 registerScreens();
 
-
-const tabs = [
-{
-    label: 'Login',
-    screen: 'mp.Login',
-    icon: require('../img/admin.png'),
-    title: 'Sign in',  
-}];
-
-tabs.push({
-    label: 'Products',
-    screen: 'mp.Types',
-    icon: require('../img/icons/shop.png'),
-    title: 'Missing Products',
-});
-
-tabs.push({
-    label: 'Management',
-    screen: 'mp.Actions',
-    icon: require('../img/admin.png'),
-    title: 'Joel es feo!',
-});
-
-
-// this will start our app
-Navigation.startTabBasedApp({
-    tabs,
-    tabsStyle: {
-        tabBarBackgroundColor: '#003a66',
-        navBarButtonColor: '#ffffff',
-        tabBarButtonColor: '#ffffff',
-        navBarTextColor: '#ffffff',
-        tabBarSelectedButtonColor: '#ff505c',
-        navigationBarColor: '#003a66',
-        navBarBackgroundColor: '#003a66',
-        statusBarColor: '#002b4c',
-        tabFontFamily: 'DIN Next Rounded LT W01 Regular',
-    },
-    appStyle: {
-        tabBarBackgroundColor: '#003a66',
-        navBarButtonColor: '#ffffff',
-        tabBarButtonColor: '#ffffff',
-        navBarTextColor: '#ffffff',
-        tabBarSelectedButtonColor: '#ff505c',
-        navigationBarColor: '#003a66',
-        navBarBackgroundColor: '#003a66',
-        statusBarColor: '#002b4c',
-        tabFontFamily: 'DIN Next Rounded LT W01 Regular',
-    },
-    drawer: {
-        left: {
-            screen: 'mp.Types.Drawer'
-        }
-    }
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: 'mp.Login', // unique ID registered with Navigation.registerScreen
+    title: 'Sign in', // title of the screen as appears in the nav bar (optional)
+    navigatorStyle: {}, // override the navigator style for the screen, see "Styling the navigator" below (optional)
+    navigatorButtons: {} // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
+  },
+  drawer: {
+      left: {
+          screen: 'mp.Types.Drawer'
+      }
+  },
+  passProps: {}, // simple serializable object that will pass as props to all top screens (optional)
+  animationType: 'slide-down' // optional, add transition animation to root change: 'none', 'slide-down', 'fade'
 });
