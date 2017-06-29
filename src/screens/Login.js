@@ -1,27 +1,41 @@
 import Login from 'react-native-simple-login'
-import React, { Component } from 'react';
+import React from 'react';
 import auth from '../helpers/auth'
 import {
   StyleSheet,
   Text,
   View,
-  Image
+  Image,
+  Button
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 
-export default class missing_products extends Component {
+class LoginScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Login',
+    title: 'Logout',
   };
 
-  // constructor(){
-  //     super();
-  //     this.state = {
-  //       csrf_token: '',
-  //     }
-  // }
+  constructor(props) {
+      super(props)
+
+      this.state = {
+        logged: false,
+      }
+
+      this.onLogin = this.onLogin.bind(this)
+      this.onLogout = this.onLogout.bind(this)
+  }
+
+  componentDidMount() {
+    const to = 'hidden';
+
+    this.props.navigator.toggleTabs({
+        to,
+        animated: false,
+    });
+  }
 
   requireAuth(nextState, replace) {
       if (!auth.loggedIn()) {
@@ -29,80 +43,41 @@ export default class missing_products extends Component {
       }
   }
 
-  registerTabs() {
-    const tabs = [
-    {
-        label: 'Login',
-        screen: 'mp.Login',
-        icon: require('../../img/admin.png'),
-        title: 'Sign in',  
-    }];
+  toggleTabs() {
+    const to = 'shown';
 
-    tabs.push({
-        label: 'Products',
-        screen: 'mp.Types',
-        icon: require('../../img/icons/shop.png'),
-        title: 'Missing Products',
-    });
+    this.setState({tabs: !this.state.tabs})
 
-    tabs.push({
-        label: 'Management',
-        screen: 'mp.Actions',
-        icon: require('../../img/admin.png'),
-        title: 'Joel es feo!',
-    });
-
-
-    // this will start our app
-    Navigation.startTabBasedApp({
-        tabs,
-        tabsStyle: {
-            tabBarBackgroundColor: '#003a66',
-            navBarButtonColor: '#ffffff',
-            tabBarButtonColor: '#ffffff',
-            navBarTextColor: '#ffffff',
-            tabBarSelectedButtonColor: '#ff505c',
-            navigationBarColor: '#003a66',
-            navBarBackgroundColor: '#003a66',
-            statusBarColor: '#002b4c',
-            tabFontFamily: 'DIN Next Rounded LT W01 Regular',
-        },
-        appStyle: {
-            tabBarBackgroundColor: '#003a66',
-            navBarButtonColor: '#ffffff',
-            tabBarButtonColor: '#ffffff',
-            navBarTextColor: '#ffffff',
-            tabBarSelectedButtonColor: '#ff505c',
-            navigationBarColor: '#003a66',
-            navBarBackgroundColor: '#003a66',
-            statusBarColor: '#002b4c',
-            tabFontFamily: 'DIN Next Rounded LT W01 Regular',
-        },
-        drawer: {
-            left: {
-                screen: 'mp.Types.Drawer'
-            }
-        }
+    this.props.navigator.toggleTabs({
+        to,
+        animated: true,
     });
   }
 
-  onLogin(email, password) {
-      const self = this;
-      registerTabs();
-    
-      // auth.login(self.state.username, self.state.password, (loggedIn) => {
-      //     if (loggedIn) {
-      //       // const { navigate } = this.props.navigation;
-      //       // navigate('Home', { name: username })
-      //     } 
-      // })
+  switchToTab(n) {
+      this.props.navigator.switchToTab({
+          tabIndex: n,
+      });
+  }
 
-      // window.setTimeout(() => {
-      //     if (auth.getError() != null ) {
-      //        console.log(auth.getError());
-      //        auth.clearError();
-      //     }
-      // }, 1000);
+  onLogin(email, password) {
+    // TODO: Check on backend if ok -->
+    this.toggleTabs()
+    this.switchToTab(1)
+    this.setState({logged: true})
+  }
+
+  onLogout() {
+    //TODO: Handle logout in backend
+
+    const to = 'hidden'
+
+    this.props.navigator.toggleTabs({
+        to,
+        animated: true,
+    });
+
+    this.setState({logged: false})
   }
    
   onResetPassword(email) {
@@ -113,15 +88,25 @@ export default class missing_products extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>
-            Missing Products {'\n'}
-        </Text>
-        <Login
-          onLogin={this.onLogin}
-          loginFormWrapperStyle= {styles.loginForm}
-          onResetPassword={this.onResetPassword}
-          loginFormSubmitButtonStyle = {styles.btnLogin}
-        />
+
+        {this.state.logged ? (
+
+          <Button
+            onPress={this.onLogout}
+            title="Logout"
+            color="#50B849"
+          />
+
+          ) : (
+            <Login
+              onLogin={this.onLogin}
+              loginFormWrapperStyle= {styles.loginForm}
+              onResetPassword={this.onResetPassword}
+              loginFormSubmitButtonStyle = {styles.btnLogin}
+            />
+          )
+        }
+
       </View>
     );
   }
@@ -144,7 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   btnLogin: {
-    backgroundColor: '#8BC34A',
+    backgroundColor: '#50B849',
   },
   loginForm: {
     marginLeft: 30,
@@ -155,3 +140,5 @@ const styles = StyleSheet.create({
     fontFamily: "DIN Next Rounded LT W01 Regular",
   }
 });
+
+export default LoginScreen;

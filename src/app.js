@@ -5,18 +5,56 @@ import registerScreens from './screens';
 // screen related book keeping
 registerScreens();
 
-Navigation.startSingleScreenApp({
-  screen: {
-    screen: 'mp.Login', // unique ID registered with Navigation.registerScreen
-    title: 'Sign in', // title of the screen as appears in the nav bar (optional)
-    navigatorStyle: {}, // override the navigator style for the screen, see "Styling the navigator" below (optional)
-    navigatorButtons: {} // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
-  },
-  drawer: {
-      left: {
-          screen: 'mp.Types.Drawer'
-      }
-  },
-  passProps: {}, // simple serializable object that will pass as props to all top screens (optional)
-  animationType: 'slide-down' // optional, add transition animation to root change: 'none', 'slide-down', 'fade'
+const tabs = [
+{
+    label: 'Logout',
+    screen: 'mp.Login',
+    icon: require('../img/admin.png'),
+    title: 'Sign in',  
+}];
+
+tabs.push({
+    label: 'Products',
+    screen: 'mp.Types',
+    icon: require('../img/icons/shop.png'),
+    title: 'Missing Products',
 });
+
+tabs.push({
+    label: 'Management',
+    screen: 'mp.Actions',
+    icon: require('../img/admin.png'),
+    title: 'Joel es feo!',
+});
+
+Navigation.startTabBasedApp({
+   tabs,
+   tabsStyle: {
+        tabBarBackgroundColor: '#50B849',
+        navBarButtonColor: '#ffffff',
+        tabBarButtonColor: '#ffffff',
+        navBarTextColor: '#ffffff',
+        tabBarSelectedButtonColor: '#59595B',
+        navigationBarColor: '#50B849',
+        navBarBackgroundColor: '#50B849',
+        statusBarColor: '#59595B',
+        tabFontFamily: 'DIN Next Rounded LT W01 Regular',
+    },
+    appStyle: {
+        tabBarBackgroundColor: '#50B849',
+        navBarButtonColor: '#ffffff',
+        tabBarButtonColor: '#ffffff',
+        navBarTextColor: '#ffffff',
+        tabBarSelectedButtonColor: '#59595B',
+        navigationBarColor: '#50B849',
+        navBarBackgroundColor: '#50B849',
+        statusBarColor: '#59595B',
+        tabFontFamily: 'DIN Next Rounded LT W01 Regular',
+    },
+    drawer: {
+        left: {
+            screen: 'mp.Types.Drawer'
+    }
+}
+});
+
